@@ -11,7 +11,6 @@ const serviceAccount = JSON.parse(process.env.GOOGLE_CREDENTIALS);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://commandlink-b3dc3-default-rtdb.firebaseio.com"
-  //               ☝️ YAHAN apna Firebase project ID daalo
 });
 
 console.log("✅ Firebase initialized");
@@ -24,7 +23,6 @@ app.post("/send", async (req, res) => {
   if (!message) return res.status(400).send("message required");
 
   try {
-    // Token khud Firebase se read karega
     const snapshot = await admin.database().ref("servant_token").get();
 
     if (!snapshot.exists()) {
@@ -59,4 +57,6 @@ app.post("/send", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on 3000"));
+// ✅ Railway ke liye PORT fix
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running on " + PORT));
